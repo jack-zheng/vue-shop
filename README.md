@@ -42,5 +42,33 @@ npm config set registry https://registry.npm.taobao.org
 
 ## 登录退出
 
+写在最前： 这个格式检测真是恶心到我了！！！
+
 1. 如果存在跨域问题，使用 token 保存登录状态
 1. 如果不存在跨域，使用 session 和 cookie 保存状态
+
+安装依赖, Development dependencies level 的依赖
+* less
+* less-loader
+
+如果图标不合适，可以去第三方的图标库找找，比如阿里的图标库
+
+绑定表单数据
+1. el-form 添加 :model 属性
+1. script-data 中定义 form 数据
+1. el-input 添加 form.xx 属性
+
+绑定表单验证
+1. el-form 添加 :rules 属性
+1. script-data 中定义 验证点
+1. el-form-item 添加 prop 属性
+
+el-form 添加 ref 属性，然后在 script 中定义 method 通过 this.$refs.loginFormRef 拿到引用
+
+异步处理时需要在request中添加一些 async, await 之类的关键字
+
+友好的信息提示：在 element.js 中导入 Message 并全局绑定，在提示的回调函数中使用 this.$message.success('登录成功') 给出弹框
+
+路由导航守卫：权限检测，不符合，退回到登录页面
+
+销毁 token 以实现登出
