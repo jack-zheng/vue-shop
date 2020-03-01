@@ -9,6 +9,7 @@
 1. 安装 phpStudy 之后导入 mydb.sql 失败，黑框一闪而过
     * 将 mydb.sql 放到全英文路径下在导入，问题解决。退一步说，我发现工具的db选项下有cmd模式应该可以通过那个手动导入的
     * setup 用到的东西都放到 resource 文件夹中了，需要的自己拿
+    * phpStudy 太大了，git 上传死慢，删了
 1. 到 `vue_api_server` 文件夹下 运行 `npm install` 安装需要的包，`node ./app.js` 启动服务其
 2. 如果不想用 postman 也可以使用 vscode 的 rest client 发 request 还挺方便的
 
