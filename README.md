@@ -61,3 +61,7 @@ npm config set registry https://registry.npm.taobao.org
 1. el-form 添加 :rules 属性
 1. script-data 中定义 验证点
 1. el-form-item 添加 prop 属性
+
+el-form 添加 ref 属性，然后在 script 中定义 method 通过 this.$refs.loginFormRef 拿到引用
+
+异步处理时需要在request中添加一些 async, await 之类的关键字
