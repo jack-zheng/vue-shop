@@ -47,3 +47,5 @@ npm config set registry https://registry.npm.taobao.org
 安装依赖, Development dependencies level 的依赖
 * less
 * less-loader
+
+如果图标不合适，可以去第三方的图标库找找，比如阿里的图标库
