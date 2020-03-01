@@ -41,6 +41,8 @@ npm config set registry https://registry.npm.taobao.org
 
 ## 登录退出
 
+写在最前： 这个格式检测真是恶心到我了！！！
+
 1. 如果存在跨域问题，使用 token 保存登录状态
 1. 如果不存在跨域，使用 session 和 cookie 保存状态
 
