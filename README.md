@@ -51,3 +51,13 @@ npm config set registry https://registry.npm.taobao.org
 * less-loader
 
 如果图标不合适，可以去第三方的图标库找找，比如阿里的图标库
+
+绑定表单数据
+1. el-form 添加 :model 属性
+1. script-data 中定义 form 数据
+1. el-input 添加 form.xx 属性
+
+绑定表单验证
+1. el-form 添加 :rules 属性
+1. script-data 中定义 验证点
+1. el-form-item 添加 prop 属性
