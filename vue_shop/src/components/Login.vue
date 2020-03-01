@@ -31,8 +31,8 @@ export default {
     // 表单绑定
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: 'admin',
+        password: '123456'
       },
       // 表单验证
       loginFormRules: {
@@ -57,6 +57,13 @@ export default {
         const { data: res } = await this.$http.post('login', this.loginForm)
         if (res.meta.status !== 200) return this.$message.error('登录失败')
         this.$message.success('登录成功')
+        // 1. 登录成功后报错 token 到 sessionStorage 中
+        // 1.1 API必须登录后才能使用
+        // 1.2 token 只在打开期间有效
+        console.log(res)
+        window.sessionStorage.setItem('token', res.data.token)
+        // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
+        this.$router.push('/home')
       })
     }
   }
