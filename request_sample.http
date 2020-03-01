@@ -1,0 +1,7 @@
+
+### Auth
+POST /api/private/v1/login HTTP/1.1
+Host: 127.0.0.1:8888
+Content-Type: application/x-www-form-urlencoded
+
+username=admin&password=123456
