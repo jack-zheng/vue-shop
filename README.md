@@ -43,3 +43,7 @@ npm config set registry https://registry.npm.taobao.org
 
 1. 如果存在跨域问题，使用 token 保存登录状态
 1. 如果不存在跨域，使用 session 和 cookie 保存状态
+
+安装依赖, Development dependencies level 的依赖
+* less
+* less-loader
