@@ -69,3 +69,5 @@ el-form 添加 ref 属性，然后在 script 中定义 method 通过 this.$refs.
 友好的信息提示：在 element.js 中导入 Message 并全局绑定，在提示的回调函数中使用 this.$message.success('登录成功') 给出弹框
 
 路由导航守卫：权限检测，不符合，退回到登录页面
+
+销毁 token 以实现登出
