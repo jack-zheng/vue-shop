@@ -17,22 +17,22 @@
           active-text-color="#ffd04b"
         >
         <!-- 一级菜单 -->
-          <el-submenu index="1">
+          <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
             <!-- 一级菜单模板区 -->
             <template slot="title">
               <!-- 图标 -->
               <i class="el-icon-location"></i>
               <!-- 文本 -->
-              <span>导航一</span>
+              <span>{{ item.authName }}</span>
             </template>
 
             <!-- 二级菜单 -->
-            <el-menu-item index="1-4-1">
+            <el-menu-item index="1-4-1" v-for="subItem in item.children" :key="subItem.id">
               <template slot="title">
               <!-- 图标 -->
               <i class="el-icon-location"></i>
               <!-- 文本 -->
-              <span>导航一</span>
+              <span>{{ subItem.authName }}</span>
             </template>
             </el-menu-item>
           </el-submenu>
