@@ -78,7 +78,7 @@
       <!-- 底部区域 -->
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addDialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="addUser">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -192,6 +192,14 @@ export default {
     // 监听添加对话框的重置事件
     addDialogClosed () {
       this.$refs.addFormRef.resetFields()
+    },
+    // 点击按钮添加新用户
+    addUser () {
+      this.$refs.addFormRef.validate(valid => {
+        // console.log(valid)
+        if (!valid) {}
+        // 添加用户的请求
+      })
     }
   }
 }
