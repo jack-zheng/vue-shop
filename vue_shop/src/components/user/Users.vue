@@ -17,54 +17,63 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary">添加用户</el-button>
+          <el-button type="primary" @click="addDialogVisible= true">添加用户</el-button>
         </el-col>
       </el-row>
 
       <!-- 用户列表区 -->
       <el-table :data="userList" border strip>
-          <el-table-column type="index"></el-table-column>
-          <el-table-column label="姓名" prop="username"></el-table-column>
-          <el-table-column label="邮箱" prop="email"></el-table-column>
-          <el-table-column label="电话" prop="mobile"></el-table-column>
-          <el-table-column label="角色" prop="role_name"></el-table-column>
-          <el-table-column label="状态">
-              <template slot-scope="scope">
-                  <el-switch v-model="scope.row.mg_state" @change="userStateChagned(scope.row)">
-                  </el-switch>
-              </template>
-          </el-table-column>
-          <el-table-column label="操作" width="180px">
-              <template>
-                  <!-- edit -->
-                  <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
-                  <!-- delete -->
-                  <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
-                  <!-- role -->
-                  <el-tooltip effect="dark" content="修改角色" placement="top-start" :enterable="false">
-                    <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
-                  </el-tooltip>
-              </template>
-          </el-table-column>
+        <el-table-column type="index"></el-table-column>
+        <el-table-column label="姓名" prop="username"></el-table-column>
+        <el-table-column label="邮箱" prop="email"></el-table-column>
+        <el-table-column label="电话" prop="mobile"></el-table-column>
+        <el-table-column label="角色" prop="role_name"></el-table-column>
+        <el-table-column label="状态">
+          <template slot-scope="scope">
+            <el-switch v-model="scope.row.mg_state" @change="userStateChagned(scope.row)"></el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="180px">
+          <template>
+            <!-- edit -->
+            <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+            <!-- delete -->
+            <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+            <!-- role -->
+            <el-tooltip effect="dark" content="修改角色" placement="top-start" :enterable="false">
+              <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+            </el-tooltip>
+          </template>
+        </el-table-column>
       </el-table>
 
       <!-- 分页区域 -->
       <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="queryInfo.pagenum"
-      :page-sizes="[1, 2, 5, 10]"
-      :page-size="queryInfo.pagesize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
-    </el-pagination>
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.pagenum"
+        :page-sizes="[1, 2, 5, 10]"
+        :page-size="queryInfo.pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      ></el-pagination>
     </el-card>
+
+    <!-- 添加用户对话框 -->
+    <el-dialog title="提示" :visible.sync="addDialogVisible" width="30%" :before-close="handleClose">
+      <span>这是一段信息</span>
+      <!-- 底部区域 -->
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addDialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       queryInfo: {
         query: '',
@@ -73,15 +82,19 @@ export default {
         pagesize: 2
       },
       userList: [],
-      total: 0
+      total: 0,
+      // 控制添加用户对话框显示/隐藏
+      addDialogVisible: false
     }
   },
-  created () {
+  created() {
     this.getUserList()
   },
   methods: {
-    async getUserList () {
-      const { data: res } = await this.$http.get('users', { params: this.queryInfo })
+    async getUserList() {
+      const { data: res } = await this.$http.get('users', {
+        params: this.queryInfo
+      })
       if (res.meta.status !== 200) {
         return this.$message.error('用户列表获取失败')
       }
@@ -90,21 +103,23 @@ export default {
       console.log(res)
     },
     // 监听 page size 改变
-    handleSizeChange (newSize) {
+    handleSizeChange(newSize) {
       // console.log(newSize)
       this.queryInfo.pagesize = newSize
       this.getUserList()
     },
     // 监听页码值改变
-    handleCurrentChange (newPage) {
+    handleCurrentChange(newPage) {
       // console.log(newPage)
       this.queryInfo.pagenum = newPage
       this.getUserList()
     },
     // 监听 switch 状态改变
-    async userStateChagned (userInfo) {
-    //   console.log(userInfo)
-      const { data: res } = await this.$http.put(`users/${userInfo.id}/state/${userInfo.mg_state}`)
+    async userStateChagned(userInfo) {
+      //   console.log(userInfo)
+      const { data: res } = await this.$http.put(
+        `users/${userInfo.id}/state/${userInfo.mg_state}`
+      )
       if (res.meta.status !== 200) {
         userInfo.mg_state = !userInfo.mg_state
         return this.$message.error('更新用户状态失败')
