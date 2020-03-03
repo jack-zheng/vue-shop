@@ -5,7 +5,7 @@ import {
   Main, Menu, Submenu, MenuItem,
   Breadcrumb, BreadcrumbItem, Card,
   Row, Col, Table, TableColumn,
-  Switch
+  Switch, Tooltip
 } from 'element-ui'
 
 Vue.use(Button)
@@ -27,4 +27,5 @@ Vue.use(Col)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Switch)
+Vue.use(Tooltip)
 Vue.prototype.$message = Message
