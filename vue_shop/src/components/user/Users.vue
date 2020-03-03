@@ -17,7 +17,7 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-            <el-button type="primary">添加用户</el-button>
+          <el-button type="primary">添加用户</el-button>
         </el-col>
       </el-row>
     </el-card>
@@ -25,7 +25,33 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      queryInfo: {
+        query: '',
+        pagenum: 1,
+        pagesize: 2
+      },
+      userList: [],
+      total: 0
+    }
+  },
+  created () {
+    this.getUserList()
+  },
+  methods: {
+    async getUserList () {
+      const { data: res } = await this.$http.get('users', { params: this.queryInfo })
+      if (res.meta.status !== 200) {
+        return this.$message.error('用户列表获取失败')
+      }
+      this.userList = res.data.userList
+      this.total = res.data.total
+      console.log(res)
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>
