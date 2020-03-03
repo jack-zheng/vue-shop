@@ -8,14 +8,32 @@
     </el-breadcrumb>
 
     <!-- 卡片视图 -->
-    <el-card class="box-card">
-        123
-    </el-card>
+    <el-card class="box-card">123</el-card>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      rightList: []
+    }
+  },
+  created() {
+    this.getRightsList()
+  },
+  methods: {
+    // 获取权限列表
+    async getRightsList() {
+      const { data: res } = await this.$http.get('rights/list')
+      if (res.meta.status !== 200) {
+        return this.$message.error('获取权限列表失败')
+      }
+      this.rightList = res.data
+      console.log(this.rightList)
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>
