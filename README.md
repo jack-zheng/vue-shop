@@ -72,3 +72,7 @@ el-form 添加 ref 属性，然后在 script 中定义 method 通过 this.$refs.
 路由导航守卫：权限检测，不符合，退回到登录页面
 
 销毁 token 以实现登出
+
+## 主页 Homepage
+
+通过 axios 请求拦截器添加 token, 保证拥有获取数据的权限
