@@ -36,7 +36,12 @@
         <el-table-column label="操作" width="180px">
           <template slot-scope="scope">
             <!-- edit -->
-            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.id)"></el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-edit"
+              size="mini"
+              @click="showEditDialog(scope.row.id)"
+            ></el-button>
             <!-- delete -->
             <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
             <!-- role -->
@@ -84,7 +89,17 @@
 
     <!-- 修改用户对话框 -->
     <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%">
-      <span>这是一段信息</span>
+      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
+        <el-form-item label="用户名">
+          <el-input v-model="editForm.username" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="editForm.email"></el-input>
+        </el-form-item>
+        <el-form-item label="手机" prop="mobile">
+          <el-input v-model="editForm.mobile"></el-input>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="editDialogVisible = false">确 定</el-button>
@@ -160,6 +175,17 @@ export default {
           { required: true, message: '请输入手机号', trigger: 'blur' },
           { validator: checkMobile, trigger: 'blur' }
         ]
+      },
+      // 添加修改用户表单验证规则
+      editFormRules: {
+        email: [
+          { required: true, message: '请输入邮箱', trigger: 'blur' },
+          { validator: checkEmail, trigger: 'blur' }
+        ],
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: checkMobile, trigger: 'blur' }
+        ]
       }
     }
   },
@@ -226,8 +252,9 @@ export default {
     },
     // 展示编辑用户的对话框
     async showEditDialog(id) {
-    //   console.log(id)
+      //   console.log(id)
       const { data: res } = await this.$http.get('users/' + id)
+      console.log(res)
       if (res.meta.status !== 200) {
         this.$message.error('获取用户信息失败')
       }
