@@ -195,10 +195,19 @@ export default {
     },
     // 点击按钮添加新用户
     addUser () {
-      this.$refs.addFormRef.validate(valid => {
+      this.$refs.addFormRef.validate(async valid => {
         // console.log(valid)
         if (!valid) {}
         // 添加用户的请求
+        const { data: res } = await this.$http.post('users', this.addForm)
+        if (res.meta.status !== 201) {
+          this.$message.error('添加用户失败！')
+        }
+        this.$message.success('添加用户成功！')
+        // 隐藏对话框
+        this.addDialogVisible = false
+        // 重新获取用户列表
+        this.getUserList()
       })
     }
   }
