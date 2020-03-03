@@ -76,3 +76,5 @@ el-form 添加 ref 属性，然后在 script 中定义 method 通过 this.$refs.
 ## 主页 Homepage
 
 通过 axios 请求拦截器添加 token, 保证拥有获取数据的权限
+
+通过作用域插槽渲染开关
