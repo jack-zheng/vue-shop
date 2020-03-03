@@ -43,7 +43,12 @@
               @click="showEditDialog(scope.row.id)"
             ></el-button>
             <!-- delete -->
-            <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+              size="mini"
+              @click="removeUserById(scope.row.id)"
+            ></el-button>
             <!-- role -->
             <el-tooltip effect="dark" content="修改角色" placement="top-start" :enterable="false">
               <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
@@ -266,16 +271,19 @@ export default {
       this.$refs.editFormRef.resetFields()
     },
     // 修改用户信息并提交
-    editUserInfo () {
+    editUserInfo() {
       this.$refs.editFormRef.validate(async valid => {
         // console.log(valid)
-        if (!valid) { }
+        if (!valid) {
+        }
         // 发起修改用户请求
-        const { data: res } = await this.$http.put('users/' + this.editForm.id,
+        const { data: res } = await this.$http.put(
+          'users/' + this.editForm.id,
           {
             email: this.editForm.email,
             mobile: this.editForm.mobile
-          })
+          }
+        )
         if (res.meta.status !== 200) {
           return this.$message.error('更新用户信息失败')
         }
@@ -287,6 +295,22 @@ export default {
         // 提示更新结果
         return this.$message.success('更新用户信息成功')
       })
+    },
+    // 根据 id 删除 user
+    async removeUserById(id) {
+      //   console.log(id)
+      const confirmResult = await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      // 如果确认删除，返回字符串 'confirm'
+      // 如果取消删除，返回字符串 'cancel'
+      // console.log(confirmResult)
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('取消删除')
+      }
+      console.log('确认删除')
     }
   }
 }
