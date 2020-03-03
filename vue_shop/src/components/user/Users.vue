@@ -34,9 +34,9 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" width="180px">
-          <template>
+          <template slot-scope="scope">
             <!-- edit -->
-            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog()"></el-button>
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.id)"></el-button>
             <!-- delete -->
             <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
             <!-- role -->
@@ -135,6 +135,8 @@ export default {
         email: '',
         mobile: ''
       },
+      // 修改用户的 form
+      editForm: {},
       // 添加表单验证规则
       addFormRules: {
         username: [
@@ -223,7 +225,13 @@ export default {
       })
     },
     // 展示编辑用户的对话框
-    showEditDialog() {
+    async showEditDialog(id) {
+    //   console.log(id)
+      const { data: res } = await this.$http.get('users/' + id)
+      if (res.meta.status !== 200) {
+        this.$message.error('获取用户信息失败')
+      }
+      this.editForm = res.data
       this.editDialogVisible = true
     }
   }
