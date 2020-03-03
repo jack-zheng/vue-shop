@@ -60,17 +60,8 @@
     </el-card>
 
     <!-- 添加用户对话框 -->
-    <el-dialog
-      title="添加用户"
-      :visible.sync="addDialogVisible"
-      width="50%"
-    >
-      <el-form
-        :model="addForm"
-        :rules="addFormRules"
-        ref="addFormRef"
-        label-width="70px"
-      >
+    <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="50%">
+      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="addForm.username"></el-input>
         </el-form-item>
@@ -96,6 +87,25 @@
 <script>
 export default {
   data() {
+    // 邮箱校验规则
+    var checkEmail = (rule, value, callback) => {
+      // 邮箱正则
+      const regEmail = /^([a-zA-Z0-9])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
+      if (regEmail.test(value)) {
+        return callback()
+      }
+
+      callback(new Error('请输入合法邮箱'))
+    }
+    // 手机校验规则
+    var checkMobile = (rule, value, callback) => {
+      const regMobile = /^(0|86|17951)?(13[0-9]|15[0123456789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
+      if (regMobile.test(value)) {
+        return callback()
+      }
+
+      callback(new Error('请输入合法手机号'))
+    }
     return {
       queryInfo: {
         query: '',
@@ -118,7 +128,12 @@ export default {
       addFormRules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, max: 10, message: '用户名长度 3-10 个字符', trigger: 'blur' }
+          {
+            min: 3,
+            max: 10,
+            message: '用户名长度 3-10 个字符',
+            trigger: 'blur'
+          }
         ],
         password: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -126,11 +141,11 @@ export default {
         ],
         email: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
-          { min: 6, max: 15, message: '邮箱长度 6-15 个字符', trigger: 'blur' }
+          { validator: checkEmail, trigger: 'blur' }
         ],
         mobile: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
-          { min: 6, max: 15, message: '手机长度 6-15 个字符', trigger: 'blur' }
+          { validator: checkMobile, trigger: 'blur' }
         ]
       }
     }
