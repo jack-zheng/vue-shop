@@ -62,7 +62,8 @@
       width="50%"
       >
       <!-- 树形控件 -->
-      <el-tree :data="rightsList" :props="treeProps" show-checkbox node-key="id" :default-expand-all="true"></el-tree>
+      <el-tree :data="rightsList" :props="treeProps" show-checkbox node-key="id" :default-expand-all="true"
+        :default-checked-keys="defKeys"></el-tree>
       <span slot="footer" class="dialog-footer">
         <el-button @click="setRightDialogVisible = false">取消</el-button>
         <el-button type="primary" @click="setRightDialogVisible = false">确定</el-button>
@@ -85,7 +86,9 @@ export default {
       treeProps: {
         label: 'authName',
         children: 'children'
-      }
+      },
+      // 默认选中的节点 id 值数组
+      defKeys: [105, 116]
     }
   },
   created() {
