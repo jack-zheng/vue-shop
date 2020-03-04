@@ -64,7 +64,12 @@
       ></el-pagination>
     </el-card>
 
-    <el-dialog title="添加分类" :visible.sync="addCateDialogVisible" width="50%">
+    <el-dialog
+      title="添加分类"
+      :visible.sync="addCateDialogVisible"
+      width="50%"
+      @close="addCateDialogClosed"
+    >
       <el-form
         :model="addCateForm"
         :rules="addCateFormRules"
@@ -220,8 +225,16 @@ export default {
         this.addCateForm.cat_level = 0
       }
     },
+    // 添加分类事件
     addCate() {
       console.log(this.addCateForm)
+    },
+    // 关闭添加分类对话框，重置表单
+    addCateDialogClosed() {
+      this.$refs.addCateFormRef.resetFields()
+      this.selectedKeys = []
+      this.addCateForm.cat_level = 0
+      this.addCateForm.cat_pid = 0
     }
   }
 }
