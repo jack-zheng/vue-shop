@@ -17,9 +17,7 @@
       </el-row>
 
       <!-- 表格区 -->
-      <el-table :data="rolelist" border stripe>
-        <el-table-column type="expand"></el-table-column>
-      </el-table>
+      <tree-table :data="catelist" :columns="columns" :selection-type="false" :expand-type="false" show-index index-text="#" border :show-row-hover="false"></tree-table>
       <!-- 分页区 -->
     </el-card>
   </div>
@@ -37,7 +35,31 @@ export default {
       },
       // 商品分类的数据列表，默认为空
       catelist: [],
-      total: ''
+      total: '',
+      // 为 table 指定列的定义
+      columns: [
+        {
+          label: '分类名称',
+          prop: 'cat_name',
+          width: '400px'
+        },
+        {
+          label: 'sex',
+          prop: 'sex',
+          minWidth: '50px'
+        },
+        {
+          label: 'score',
+          prop: 'score'
+        },
+        {
+          label: 'likes',
+          prop: 'likes',
+          minWidth: '200px',
+          type: 'template',
+          template: 'likes'
+        }
+      ]
     }
   },
   created() {
