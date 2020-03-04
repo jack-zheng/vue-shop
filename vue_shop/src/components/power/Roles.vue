@@ -50,11 +50,22 @@
               <template>
                 <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
                 <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
-                <el-button type="warning" icon="el-icon-setting" size="mini">分配权限</el-button>
+                <el-button type="warning" icon="el-icon-setting" size="mini" @click="showSetRightDialog">分配权限</el-button>
               </template>
           </el-table-column>
       </el-table>
     </el-card>
+    <!-- 分配权限对话框 -->
+    <el-dialog
+      title="分配权限"
+      :visible.sync="setRightDialogVisible"
+      width="50%">
+      <span>This is a message</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setRightDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="setRightDialogVisible = false">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -63,7 +74,11 @@ export default {
   data() {
     return {
       // 所有角色列表数据
-      rolelist: []
+      rolelist: [],
+      // 控制分配权限对话框显示与否
+      setRightDialogVisible: false,
+      // 所有权限的数据
+      rightsList: []
     }
   },
   created() {
@@ -102,6 +117,18 @@ export default {
 
       // 这个渲染很巧妙
       role.children = res.data
+    },
+    // 展示分配权限的对话框
+    async showSetRightDialog() {
+      // 获取所有权限列表数据
+      const { data: res } = await this.$http.get('rights/tree')
+      if (res.meta.status !== 200) {
+        return this.$message.error('获取角色列表失败')
+      }
+
+      this.rightsList = res.data
+      console.log(this.rightsList)
+      this.setRightDialogVisible = true
     }
   }
 }
