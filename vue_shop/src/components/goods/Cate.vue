@@ -64,11 +64,7 @@
       ></el-pagination>
     </el-card>
 
-    <el-dialog
-      title="添加分类"
-      :visible.sync="addCateDialogVisible"
-      width="50%"
-    >
+    <el-dialog title="添加分类" :visible.sync="addCateDialogVisible" width="50%">
       <el-form
         :model="addCateForm"
         :rules="addCateFormRules"
@@ -78,8 +74,7 @@
         <el-form-item label="分类名称：" prop="cat_name">
           <el-input v-model="addCateForm.cat_name"></el-input>
         </el-form-item>
-        <el-form-item label="父级分类：">
-        </el-form-item>
+        <el-form-item label="父级分类："></el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addCateDialogVisible = false">取 消</el-button>
@@ -148,7 +143,9 @@ export default {
             trigger: 'blur'
           }
         ]
-      }
+      },
+      // 父级分类列表
+      parentCateList: []
     }
   },
   created() {
@@ -178,7 +175,20 @@ export default {
       this.getCateList()
     },
     showAddCateDialog() {
+      // 先获取父级列表，再显示对话框
+      this.getParentCateList()
       this.addCateDialogVisible = true
+    },
+    // 获取父级分类的数据列表
+    async getParentCateList() {
+      const { data: res } = await this.$http.get('categories', {
+        params: { type: 2 }
+      })
+      if (res.meta.status !== 200) {
+        return this.$message.error('获取父级分类失败')
+      }
+      console.log(res.data)
+      this.parentCateList = res.data
     }
   }
 }
