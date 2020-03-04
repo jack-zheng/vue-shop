@@ -90,7 +90,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addCateDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addCateDialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="addCate">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -207,6 +207,21 @@ export default {
     // 选项发生变化出发事件
     parentCateChanged() {
       console.log(this.selectedKeys)
+      // 如果 selected 数组中的个数大于0，则选中数据，反之，没有选中
+      if (this.selectedKeys.length > 0) {
+        this.addCateForm.cat_pid = this.selectedKeys[
+          this.selectedKeys.length - 1
+        ]
+        // 为当前分类等级赋值
+        this.addCateForm.cat_level = this.selectedKeys.length
+      } else {
+        this.addCateForm.cat_pid = 0
+        // 为当前分类等级赋值
+        this.addCateForm.cat_level = 0
+      }
+    },
+    addCate() {
+      console.log(this.addCateForm)
     }
   }
 }
@@ -218,6 +233,6 @@ export default {
 }
 
 .el-cascader {
-    width: 100%;
+  width: 100%;
 }
 </style>
