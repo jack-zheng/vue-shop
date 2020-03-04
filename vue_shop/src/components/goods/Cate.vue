@@ -18,6 +18,7 @@
 
       <!-- 表格区 -->
       <tree-table
+        class="treeTable"
         :data="catelist"
         :columns="columns"
         :selection-type="false"
@@ -39,21 +40,28 @@
 
         <!-- 排序 -->
         <template slot="order" slot-scope="scope">
-          <el-tag size="mini"
-            v-if="scope.row.cat_level === 0">一级</el-tag>
-          <el-tag type="success" size="mini"
-            v-else-if="scope.row.cat_level === 1">二级</el-tag>
-          <el-tag type="warning" size="mini"
-            v-else>三级</el-tag>
+          <el-tag size="mini" v-if="scope.row.cat_level === 0">一级</el-tag>
+          <el-tag type="success" size="mini" v-else-if="scope.row.cat_level === 1">二级</el-tag>
+          <el-tag type="warning" size="mini" v-else>三级</el-tag>
         </template>
 
         <!-- 操作 -->
-        <template slot="opt" slot-scope="">
+        <template slot="opt" slot-scope>
           <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
         </template>
       </tree-table>
+
       <!-- 分页区 -->
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.pagenum"
+        :page-sizes="[3, 5, 10, 15]"
+        :page-size="queryInfo.pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      ></el-pagination>
     </el-card>
   </div>
 </template>
@@ -70,7 +78,7 @@ export default {
       },
       // 商品分类的数据列表，默认为空
       catelist: [],
-      total: '',
+      total: 0,
       // 为 table 指定列的定义
       columns: [
         {
@@ -114,10 +122,23 @@ export default {
       // 数据列表赋值
       this.catelist = res.data.result
       this.total = res.data.total
+    },
+    // 监听 pagesize 事件
+    handleSizeChange(newSize) {
+      this.queryInfo.pagesize = newSize
+      this.getCateList()
+    },
+    // 监听 pagenum 改变
+    handleCurrentChange(newPage) {
+      this.queryInfo.pagenum = newPage
+      this.getCateList()
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+.treeTable {
+  margin-top: 15px;
+}
 </style>
