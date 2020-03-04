@@ -47,10 +47,10 @@
           <el-table-column label="角色名称" prop="roleName"></el-table-column>
           <el-table-column label="角色描述" prop="roleDesc"></el-table-column>
           <el-table-column label="操作" width="300px">
-              <template>
+              <template slot-scope="scope">
                 <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
                 <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
-                <el-button type="warning" icon="el-icon-setting" size="mini" @click="showSetRightDialog">分配权限</el-button>
+                <el-button type="warning" icon="el-icon-setting" size="mini" @click="showSetRightDialog(scope.row)">分配权限</el-button>
               </template>
           </el-table-column>
       </el-table>
@@ -60,6 +60,7 @@
       title="分配权限"
       :visible.sync="setRightDialogVisible"
       width="50%"
+      @close="setRightDialogClosed"
       >
       <!-- 树形控件 -->
       <el-tree :data="rightsList" :props="treeProps" show-checkbox node-key="id" :default-expand-all="true"
@@ -88,7 +89,7 @@ export default {
         children: 'children'
       },
       // 默认选中的节点 id 值数组
-      defKeys: [105, 116]
+      defKeys: []
     }
   },
   created() {
@@ -128,8 +129,17 @@ export default {
       // 这个渲染很巧妙
       role.children = res.data
     },
+    // 通过递归形式获取角色下所有三级权限id并赋值给defKeys
+    getLeafKeys(node, arr) {
+      // 如果 node 不包含子节点则为三级节点
+      if (!node.children) {
+        return arr.push(node.id)
+      }
+
+      node.children.forEach(item => this.getLeafKeys(item, arr))
+    },
     // 展示分配权限的对话框
-    async showSetRightDialog() {
+    async showSetRightDialog(role) {
       // 获取所有权限列表数据
       const { data: res } = await this.$http.get('rights/tree')
       if (res.meta.status !== 200) {
@@ -137,8 +147,16 @@ export default {
       }
 
       this.rightsList = res.data
-      console.log(this.rightsList)
+      // console.log(this.rightsList)
+
+      // 递归获取三级节点 id
+      this.getLeafKeys(role, this.defKeys)
+      console.log(this.defKeys)
       this.setRightDialogVisible = true
+    },
+    // 监听分配权限对话框关闭事件
+    setRightDialogClosed() {
+      this.defKeys = []
     }
   }
 }
