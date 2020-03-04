@@ -17,7 +17,24 @@
       </el-row>
 
       <!-- 表格区 -->
-      <tree-table :data="catelist" :columns="columns" :selection-type="false" :expand-type="false" show-index index-text="#" border :show-row-hover="false"></tree-table>
+      <tree-table
+        :data="catelist"
+        :columns="columns"
+        :selection-type="false"
+        :expand-type="false"
+        show-index
+        index-text="#"
+        border
+        :show-row-hover="false"
+      >
+        <template slot="isok" slot-scope="scope">
+            <i class="el-icon-success"
+                v-if="scope.row.cat_deleted === false"
+                style="color: lightgreen;"></i>
+            <i class="el-icon-error" v-else
+                style="color: red;"></i>
+        </template>
+      </tree-table>
       <!-- 分页区 -->
     </el-card>
   </div>
@@ -44,20 +61,10 @@ export default {
           width: '400px'
         },
         {
-          label: 'sex',
-          prop: 'sex',
-          minWidth: '50px'
-        },
-        {
-          label: 'score',
-          prop: 'score'
-        },
-        {
-          label: 'likes',
-          prop: 'likes',
-          minWidth: '200px',
+          label: '是否有效',
+          // 当前列为模板列
           type: 'template',
-          template: 'likes'
+          template: 'isok'
         }
       ]
     }
