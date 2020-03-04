@@ -27,12 +27,30 @@
         border
         :show-row-hover="false"
       >
+        <!-- 是否有效 -->
         <template slot="isok" slot-scope="scope">
-            <i class="el-icon-success"
-                v-if="scope.row.cat_deleted === false"
-                style="color: lightgreen;"></i>
-            <i class="el-icon-error" v-else
-                style="color: red;"></i>
+          <i
+            class="el-icon-success"
+            v-if="scope.row.cat_deleted === false"
+            style="color: lightgreen;"
+          ></i>
+          <i class="el-icon-error" v-else style="color: red;"></i>
+        </template>
+
+        <!-- 排序 -->
+        <template slot="order" slot-scope="scope">
+          <el-tag size="mini"
+            v-if="scope.row.cat_level === 0">一级</el-tag>
+          <el-tag type="success" size="mini"
+            v-else-if="scope.row.cat_level === 1">二级</el-tag>
+          <el-tag type="warning" size="mini"
+            v-else>三级</el-tag>
+        </template>
+
+        <!-- 操作 -->
+        <template slot="opt" slot-scope="">
+          <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+          <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
         </template>
       </tree-table>
       <!-- 分页区 -->
@@ -65,6 +83,18 @@ export default {
           // 当前列为模板列
           type: 'template',
           template: 'isok'
+        },
+        {
+          label: '排序',
+          // 当前列为模板列
+          type: 'template',
+          template: 'order'
+        },
+        {
+          label: '操作',
+          // 当前列为模板列
+          type: 'template',
+          template: 'opt'
         }
       ]
     }
