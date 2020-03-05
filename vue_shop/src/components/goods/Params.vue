@@ -55,7 +55,12 @@ export default {
     },
     // 级联选择框变化触发
     handleChange() {
-      console.log(this.selectedCateKeys)
+      //   console.log(this.selectedCateKeys)
+      // 选中的不是三级分类，数组清空
+      if (this.selectedCateKeys.length !== 3) {
+        this.selectedCateKeys = []
+        this.$message.warning('请选择三级分类商品')
+      }
     }
   }
 }
