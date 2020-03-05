@@ -23,11 +23,33 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      // 商品分类列表
+      catelist: []
+    }
+  },
+  created() {
+    this.getCateList()
+  },
+  methods: {
+    // 获取所有的商品列表
+    async getCateList() {
+      const { data: res } = await this.$http.get('categories')
+      if (res.meta.status !== 200) {
+        return this.$message.error('获取商品分类失败')
+      }
+
+      this.catelist = res.data
+      console.log(this.catelist)
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>
 .cat_opt {
-    margin: 15px 0px;
+  margin: 15px 0px;
 }
 </style>
