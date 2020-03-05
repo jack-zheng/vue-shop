@@ -44,8 +44,13 @@
             <!-- 数据列 -->
             <el-table-column label="参数名称" prop="attr_name"></el-table-column>
             <el-table-column label="操作">
-              <template slot-scope>
-                <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog">编辑</el-button>
+              <template slot-scope="scope">
+                <el-button
+                  type="primary"
+                  icon="el-icon-edit"
+                  size="mini"
+                  @click="showEditDialog(scope.row.attr_id)"
+                >编辑</el-button>
                 <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
               </template>
             </el-table-column>
@@ -68,8 +73,13 @@
             <!-- 数据列 -->
             <el-table-column label="属性名称" prop="attr_name"></el-table-column>
             <el-table-column label="操作">
-              <template slot-scope>
-                <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog">编辑</el-button>
+              <template slot-scope="scope">
+                <el-button
+                  type="primary"
+                  icon="el-icon-edit"
+                  size="mini"
+                  @click="showEditDialog(scope.row.attr_id)"
+                >编辑</el-button>
                 <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
               </template>
             </el-table-column>
@@ -231,12 +241,42 @@ export default {
       })
     },
     // 点击按钮展示修改对话框
-    showEditDialog() {
+    async showEditDialog(attrId) {
       this.editDialogVisible = true
+
+      const { data: res } = await this.$http.get(
+        `categories/${this.cateId}/attributes/${attrId}`,
+        {
+          params: { attr_sel: this.activeName }
+        }
+      )
+      if (res.meta.status !== 200) {
+        return this.$message.error('获取商品参数失败')
+      }
+      // console.log(res.data)
+      this.editForm = res.data
     },
     // 点击修改属性对话框确定按钮触发事件
     editParams() {
-      this.editDialogVisible = false
+      this.$refs.editFormRef.validate(async valid => {
+        if (!valid) {
+        }
+        const { data: res } = await this.$http.put(
+          `categories/${this.cateId}/attributes/${this.editForm.attr_id}`,
+          {
+            attr_name: this.editForm.attr_name,
+            attr_sel: this.activeName
+          }
+        )
+
+        if (res.meta.status !== 200) {
+          return this.$message.error('修改商品参数失败')
+        }
+
+        this.$message.success('修改商品参数成功')
+        this.getParamsData()
+        this.editDialogVisible = false
+      })
     },
     // 修改对话框关闭触发事件
     editDialogClosed() {
