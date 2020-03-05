@@ -38,7 +38,13 @@
           <!-- 动态参数表格 -->
           <el-table :data="manyTableData" border stripe>
             <!-- 展开行 -->
-            <el-table-column type="expand"></el-table-column>
+            <el-table-column type="expand">
+                <template slot-scope="scope">
+                    <el-tag v-for="(item, i) in scope.row.attr_vals" :key="i" closable>
+                        {{ item }}
+                    </el-tag>
+                </template>
+            </el-table-column>
             <!-- 索引列 -->
             <el-table-column type="index"></el-table-column>
             <!-- 数据列 -->
@@ -51,7 +57,12 @@
                   size="mini"
                   @click="showEditDialog(scope.row.attr_id)"
                 >编辑</el-button>
-                <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeParams(scope.row.attr_id)">删除</el-button>
+                <el-button
+                  type="danger"
+                  icon="el-icon-delete"
+                  size="mini"
+                  @click="removeParams(scope.row.attr_id)"
+                >删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -80,7 +91,12 @@
                   size="mini"
                   @click="showEditDialog(scope.row.attr_id)"
                 >编辑</el-button>
-                <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeParams(scope.row.attr_id)">删除</el-button>
+                <el-button
+                  type="danger"
+                  icon="el-icon-delete"
+                  size="mini"
+                  @click="removeParams(scope.row.attr_id)"
+                >删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -208,6 +224,11 @@ export default {
       if (res.meta.status !== 200) {
         return this.$message.error('获取商品信参数失败')
       }
+
+      // 重新格式化 attr_vals，返回数组形式的结果
+      res.data.forEach(item => {
+        item.attr_vals = item.attr_vals.split(',')
+      })
       console.log(res.data)
       if (this.activeName === 'many') {
         this.manyTableData = res.data
@@ -341,5 +362,9 @@ export default {
 <style lang="less" scoped>
 .cat_opt {
   margin: 15px 0px;
+}
+
+.el-tag {
+    margin: 5px;
 }
 </style>
