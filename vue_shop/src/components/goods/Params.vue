@@ -49,8 +49,8 @@
                   v-model="scope.row.inputValue"
                   ref="saveTagInput"
                   size="small"
-                  @keyup.enter.native="handleInputConfirm"
-                  @blur="handleInputConfirm"
+                  @keyup.enter.native="handleInputConfirm(scope.row)"
+                  @blur="handleInputConfirm(scope.row)"
                 ></el-input>
                 <!-- 输入添加按钮 -->
                 <el-button
@@ -353,8 +353,13 @@ export default {
       this.getParamsData()
     },
     // 文本框失去焦点或按下回车触发
-    handleInputConfirm() {
-      console.log('ok')
+    handleInputConfirm(row) {
+      if (row.inputValue.trim().length === 0) {
+        row.inputValue = ''
+        row.inputVisible = false
+        return 0
+      }
+      // 如果没有 return, 则证明输入的内容需要做后续处理
     },
     // 点击按钮，展示文本输入框
     showInput(row) {
