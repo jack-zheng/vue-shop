@@ -53,7 +53,12 @@
                   @blur="handleInputConfirm"
                 ></el-input>
                 <!-- 输入添加按钮 -->
-                <el-button v-else class="button-new-tag" size="small" @click="showInput(scope.row)">+ New Tag</el-button>
+                <el-button
+                  v-else
+                  class="button-new-tag"
+                  size="small"
+                  @click="showInput(scope.row)"
+                >+ New Tag</el-button>
               </template>
             </el-table-column>
             <!-- 索引列 -->
@@ -354,6 +359,11 @@ export default {
     // 点击按钮，展示文本输入框
     showInput(row) {
       row.inputVisible = true
+      // 文本框自动获得焦点
+      // $nextTick 方法的作用，当页面上元素重新渲染之后才会指定回调函数中的代码
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus()
+      })
     }
   },
   computed: {
@@ -392,6 +402,6 @@ export default {
 }
 
 .input-new-tag {
-    width: 150px;
+  width: 150px;
 }
 </style>
