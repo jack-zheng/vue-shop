@@ -29,14 +29,73 @@
       <el-tabs v-model="activeName" @tab-click="handleTabClick">
         <!-- 添加动态参数面板 -->
         <el-tab-pane label="用户管理" name="many">
-          <el-button type="primary" size="mini" :disabled="isBtnDisabled">添加参数</el-button>
+          <el-button
+            type="primary"
+            size="mini"
+            :disabled="isBtnDisabled"
+            @click="addDialogVisible=true"
+          >添加参数</el-button>
+          <!-- 动态参数表格 -->
+          <el-table :data="manyTableData" border stripe>
+            <!-- 展开行 -->
+            <el-table-column type="expand"></el-table-column>
+            <!-- 索引列 -->
+            <el-table-column type="index"></el-table-column>
+            <!-- 数据列 -->
+            <el-table-column label="参数名称" prop="attr_name"></el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope>
+                <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
+                <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
         <!-- 添加静态属性面板 -->
         <el-tab-pane label="配置管理" name="only">
-          <el-button type="primary" size="mini" :disabled="isBtnDisabled">添加属性</el-button>
+          <el-button
+            type="primary"
+            size="mini"
+            :disabled="isBtnDisabled"
+            @click="addDialogVisible=true"
+          >添加属性</el-button>
+          <!-- 静态参数表格 -->
+          <el-table :data="onlyTableData" border stripe>
+            <!-- 展开行 -->
+            <el-table-column type="expand"></el-table-column>
+            <!-- 索引列 -->
+            <el-table-column type="index"></el-table-column>
+            <!-- 数据列 -->
+            <el-table-column label="属性名称" prop="attr_name"></el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope>
+                <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
+                <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
       </el-tabs>
     </el-card>
+
+    <!-- 添加参数对话框 -->
+    <el-dialog
+      :title="'添加' + titleText"
+      :visible.sync="addDialogVisible"
+      width="50%"
+      @close="addDialogClosed"
+    >
+      <!-- 添加参数对话框 -->
+      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px">
+        <el-form-item :label="titleText" prop="attr_name">
+          <el-input v-model="addForm.attr_name"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addDialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -53,7 +112,19 @@ export default {
       // 动态属性数据
       manyTableData: [],
       // 静态属性数据
-      onlyTableData: []
+      onlyTableData: [],
+      // 控制添加对话框的显示与否
+      addDialogVisible: false,
+      addForm: { attr_name: '' },
+      addFormRules: {
+        attr_name: [
+          {
+            required: true,
+            message: '请输入分类名称',
+            trigger: 'blur'
+          }
+        ]
+      }
     }
   },
   created() {
@@ -68,7 +139,7 @@ export default {
       }
 
       this.catelist = res.data
-      console.log(this.catelist)
+      //   console.log(this.catelist)
     },
     // 级联选择框变化触发
     handleChange() {
@@ -103,6 +174,10 @@ export default {
       } else {
         this.onlyTableData = res.data
       }
+    },
+    // 监听添加对话框关闭事件
+    addDialogClosed() {
+      this.$refs.addFormRef.resetFields()
     }
   },
   computed: {
@@ -119,6 +194,13 @@ export default {
         return this.selectedCateKeys[2]
       }
       return null
+    },
+    // 动态计算标题属性
+    titleText() {
+      if (this.activeName === 'many') {
+        return '动态参数'
+      }
+      return '静态属性'
     }
   }
 }
