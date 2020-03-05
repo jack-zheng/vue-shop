@@ -27,8 +27,14 @@
       </el-row>
       <!-- tab 页签区 -->
       <el-tabs v-model="activeName" @tab-click="handleTabClick">
-        <el-tab-pane label="用户管理" name="first">动态参数</el-tab-pane>
-        <el-tab-pane label="配置管理" name="second">静态属性</el-tab-pane>
+        <!-- 添加动态参数面板 -->
+        <el-tab-pane label="用户管理" name="first">
+          <el-button type="primary" size="mini" :disabled="isBtnDisabled">添加参数</el-button>
+        </el-tab-pane>
+        <!-- 添加静态属性面板 -->
+        <el-tab-pane label="配置管理" name="second">
+          <el-button type="primary" size="mini" :disabled="isBtnDisabled">添加属性</el-button>
+        </el-tab-pane>
       </el-tabs>
     </el-card>
   </div>
@@ -72,6 +78,15 @@ export default {
     // Tab页签点击事件的处理函数
     handleTabClick() {
       console.log(this.activeName)
+    }
+  },
+  computed: {
+    // 如果按钮需要被禁用，返回 true, 否则 返回 false
+    isBtnDisabled() {
+      if (this.selectedCateKeys.length !== 3) {
+        return true
+      }
+      return false
     }
   }
 }
