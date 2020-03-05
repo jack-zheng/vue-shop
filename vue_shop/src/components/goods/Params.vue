@@ -67,7 +67,15 @@ export default {
       console.log(this.catelist)
     },
     // 级联选择框变化触发
-    async handleChange() {
+    handleChange() {
+      this.getParamsData()
+    },
+    // Tab页签点击事件的处理函数
+    handleTabClick() {
+      this.getParamsData()
+    },
+    // 获取参数列表数据
+    async getParamsData() {
       //   console.log(this.selectedCateKeys)
       // 选中的不是三级分类，数组清空
       if (this.selectedCateKeys.length !== 3) {
@@ -86,10 +94,6 @@ export default {
         return this.$message.error('获取商品信参数失败')
       }
       console.log(res.data)
-    },
-    // Tab页签点击事件的处理函数
-    handleTabClick() {
-      console.log(this.activeName)
     }
   },
   computed: {
