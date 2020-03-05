@@ -25,6 +25,11 @@
           ></el-cascader>
         </el-col>
       </el-row>
+      <!-- tab 页签区 -->
+      <el-tabs v-model="activeName" @tab-click="handleTabClick">
+        <el-tab-pane label="用户管理" name="first">动态参数</el-tab-pane>
+        <el-tab-pane label="配置管理" name="second">静态属性</el-tab-pane>
+      </el-tabs>
     </el-card>
   </div>
 </template>
@@ -36,7 +41,9 @@ export default {
       // 商品分类列表
       catelist: [],
       // 级联选择框双向绑定的数据
-      selectedCateKeys: []
+      selectedCateKeys: [],
+      // 被激活的页签的名称
+      activeName: 'first'
     }
   },
   created() {
@@ -61,6 +68,10 @@ export default {
         this.selectedCateKeys = []
         this.$message.warning('请选择三级分类商品')
       }
+    },
+    // Tab页签点击事件的处理函数
+    handleTabClick() {
+      console.log(this.activeName)
     }
   }
 }
