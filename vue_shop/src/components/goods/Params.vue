@@ -51,7 +51,7 @@
                   size="mini"
                   @click="showEditDialog(scope.row.attr_id)"
                 >编辑</el-button>
-                <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+                <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeParams(scope.row.attr_id)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -80,7 +80,7 @@
                   size="mini"
                   @click="showEditDialog(scope.row.attr_id)"
                 >编辑</el-button>
-                <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+                <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeParams(scope.row.attr_id)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -281,6 +281,35 @@ export default {
     // 修改对话框关闭触发事件
     editDialogClosed() {
       this.$refs.editFormRef.resetFields()
+    },
+    // 根据 id 删除对应的 param
+    async removeParams(attrId) {
+      const confirmResult = await this.$confirm(
+        '此操作将永久删除该参数, 是否继续?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch(err => err)
+
+      // 取消删除操作
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('删除参数已取消')
+      }
+
+      // 发送请求删除属性
+      const { data: res } = await this.$http.delete(
+        `categories/${this.cateId}/attributes/${attrId}`
+      )
+
+      if (res.meta.status !== 200) {
+        return this.$message.error('删除参数失败')
+      }
+
+      this.$message.success('删除参数成功')
+      this.getParamsData()
     }
   },
   computed: {
