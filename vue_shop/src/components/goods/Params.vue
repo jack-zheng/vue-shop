@@ -251,7 +251,9 @@ export default {
     },
     // Tab页签点击事件的处理函数
     handleTabClick() {
-      this.getParamsData()
+      if (this.selectedCateKeys.length === 3) {
+        this.getParamsData()
+      }
     },
     // 获取参数列表数据
     async getParamsData() {
@@ -261,7 +263,6 @@ export default {
         this.selectedCateKeys = []
         this.manyTableData = []
         this.onlyTableData = []
-        this.$message.warning('请选择三级分类商品')
       }
 
       // 更具所选分类 ID 和当前所处面板获取对应参数
