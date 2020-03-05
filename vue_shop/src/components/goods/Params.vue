@@ -41,7 +41,12 @@
             <el-table-column type="expand">
               <template slot-scope="scope">
                 <!-- 循环渲染tag标签 -->
-                <el-tag v-for="(item, i) in scope.row.attr_vals" :key="i" closable>{{ item }}</el-tag>
+                <el-tag
+                  v-for="(item, i) in scope.row.attr_vals"
+                  :key="i"
+                  closable
+                  @close="handleClose(i, scope.row)"
+                >{{ item }}</el-tag>
                 <!-- 输入添加文本框 -->
                 <el-input
                   class="input-new-tag"
@@ -353,7 +358,7 @@ export default {
       this.getParamsData()
     },
     // 文本框失去焦点或按下回车触发
-    async handleInputConfirm(row) {
+    handleInputConfirm(row) {
       if (row.inputValue.trim().length === 0) {
         row.inputValue = ''
         row.inputVisible = false
@@ -364,6 +369,11 @@ export default {
       row.inputValue = ''
       row.inputVisible = false
 
+      // 发送请求，保存tag
+      this.saveAttrVals(row)
+    },
+    // 将对 attr vals 保存到数据库
+    async saveAttrVals(row) {
       // 发送请求，保存tag
       const { data: res } = await this.$http.put(
         `categories/${this.cateId}/attributes/${row.attr_id}`,
@@ -388,6 +398,11 @@ export default {
       this.$nextTick(_ => {
         this.$refs.saveTagInput.$refs.input.focus()
       })
+    },
+    // 删除对应的参数和选项
+    handleClose(i, row) {
+      row.attr_vals.splice(i, 1)
+      this.saveAttrVals(row)
     }
   },
   computed: {
