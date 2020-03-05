@@ -353,13 +353,32 @@ export default {
       this.getParamsData()
     },
     // 文本框失去焦点或按下回车触发
-    handleInputConfirm(row) {
+    async handleInputConfirm(row) {
       if (row.inputValue.trim().length === 0) {
         row.inputValue = ''
         row.inputVisible = false
-        return 0
+        return null
       }
       // 如果没有 return, 则证明输入的内容需要做后续处理
+      row.attr_vals.push(row.inputValue.trim())
+      row.inputValue = ''
+      row.inputVisible = false
+
+      // 发送请求，保存tag
+      const { data: res } = await this.$http.put(
+        `categories/${this.cateId}/attributes/${row.attr_id}`,
+        {
+          attr_name: row.attr_name,
+          attr_sel: row.attr_sel,
+          attr_vals: row.attr_vals.join(',')
+        }
+      )
+
+      if (res.meta.status !== 200) {
+        return this.$message.error('修改参数项失败')
+      }
+
+      this.$message.success('修改参数项成功')
     },
     // 点击按钮，展示文本输入框
     showInput(row) {
