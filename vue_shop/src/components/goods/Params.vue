@@ -232,6 +232,8 @@ export default {
       // 选中的不是三级分类，数组清空
       if (this.selectedCateKeys.length !== 3) {
         this.selectedCateKeys = []
+        this.manyTableData = []
+        this.onlyTableData = []
         this.$message.warning('请选择三级分类商品')
       }
 
