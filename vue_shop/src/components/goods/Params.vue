@@ -40,7 +40,20 @@
             <!-- 展开行 -->
             <el-table-column type="expand">
               <template slot-scope="scope">
+                <!-- 循环渲染tag标签 -->
                 <el-tag v-for="(item, i) in scope.row.attr_vals" :key="i" closable>{{ item }}</el-tag>
+                <!-- 输入添加文本框 -->
+                <el-input
+                  class="input-new-tag"
+                  v-if="inputVisible"
+                  v-model="inputValue"
+                  ref="saveTagInput"
+                  size="small"
+                  @keyup.enter.native="handleInputConfirm"
+                  @blur="handleInputConfirm"
+                ></el-input>
+                <!-- 输入添加按钮 -->
+                <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
               </template>
             </el-table-column>
             <!-- 索引列 -->
@@ -178,7 +191,11 @@ export default {
             trigger: 'blur'
           }
         ]
-      }
+      },
+      // 控制按钮与文本框切换显示
+      inputVisible: false,
+      // 文本框输入内容
+      inputValue: ''
     }
   },
   created() {
@@ -329,6 +346,15 @@ export default {
 
       this.$message.success('删除参数成功')
       this.getParamsData()
+    },
+    // 文本框失去焦点或按下回车触发
+    handleInputConfirm() {
+      console.log('ok')
+      this.inputVisible = false
+    },
+    // 点击按钮，展示文本输入框
+    showInput() {
+      this.inputVisible = true
     }
   },
   computed: {
@@ -364,5 +390,9 @@ export default {
 
 .el-tag {
   margin: 5px;
+}
+
+.input-new-tag {
+    width: 150px;
 }
 </style>
