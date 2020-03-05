@@ -16,6 +16,13 @@
         <el-col>
           <span>选择商品分类:</span>
           <!-- 商品分类级联选择框 -->
+          <el-cascader
+            v-model="selectedCateKeys"
+            :options="catelist"
+            :props="{ expandTrigger: 'hover', value: 'cat_id',
+                label: 'cat_name', children: 'children' }"
+            @change="handleChange"
+          ></el-cascader>
         </el-col>
       </el-row>
     </el-card>
@@ -27,7 +34,9 @@ export default {
   data() {
     return {
       // 商品分类列表
-      catelist: []
+      catelist: [],
+      // 级联选择框双向绑定的数据
+      selectedCateKeys: []
     }
   },
   created() {
@@ -43,6 +52,10 @@ export default {
 
       this.catelist = res.data
       console.log(this.catelist)
+    },
+    // 级联选择框变化触发
+    handleChange() {
+      console.log(this.selectedCateKeys)
     }
   }
 }
