@@ -39,11 +39,9 @@
           <el-table :data="manyTableData" border stripe>
             <!-- 展开行 -->
             <el-table-column type="expand">
-                <template slot-scope="scope">
-                    <el-tag v-for="(item, i) in scope.row.attr_vals" :key="i" closable>
-                        {{ item }}
-                    </el-tag>
-                </template>
+              <template slot-scope="scope">
+                <el-tag v-for="(item, i) in scope.row.attr_vals" :key="i" closable>{{ item }}</el-tag>
+              </template>
             </el-table-column>
             <!-- 索引列 -->
             <el-table-column type="index"></el-table-column>
@@ -227,7 +225,7 @@ export default {
 
       // 重新格式化 attr_vals，返回数组形式的结果
       res.data.forEach(item => {
-        item.attr_vals = item.attr_vals.split(',')
+        item.attr_vals = item.attr_vals ? item.attr_vals.split(',') : []
       })
       console.log(res.data)
       if (this.activeName === 'many') {
@@ -365,6 +363,6 @@ export default {
 }
 
 .el-tag {
-    margin: 5px;
+  margin: 5px;
 }
 </style>
