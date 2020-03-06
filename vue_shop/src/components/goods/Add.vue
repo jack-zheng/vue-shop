@@ -67,10 +67,20 @@
           </el-tab-pane>
           <el-tab-pane label="商品属性" name="2">
             <el-form-item :label="item.attr_name" v-for="item in onlyTableData" :key="item.attr_id">
-                <el-input v-model="item.attr_vals"></el-input>
+              <el-input v-model="item.attr_vals"></el-input>
             </el-form-item>
           </el-tab-pane>
-          <el-tab-pane label="商品图片" name="3">商品图片</el-tab-pane>
+          <el-tab-pane label="商品图片" name="3">
+            <!-- action: 图片上传地址 -->
+            <el-upload
+              action="uploadURL"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              list-type="picture"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+            </el-upload>
+          </el-tab-pane>
           <el-tab-pane label="商品内容" name="4">商品内容</el-tab-pane>
         </el-tabs>
       </el-form>
@@ -134,7 +144,9 @@ export default {
       // 动态参数列表数据
       manyTableData: [],
       // 静态参数列表数据
-      onlyTableData: ''
+      onlyTableData: '',
+      // 上传图片 Url 地址
+      uploadURL: 'http://127.0.0.1:8888/api/private/v1/upload'
     }
   },
   created() {
@@ -201,7 +213,11 @@ export default {
         this.onlyTableData = res.data
         console.log(res.data)
       }
-    }
+    },
+    // 处理图片预览
+    handlePreview() {},
+    // 处理图片移除
+    handleRemove() {}
   },
   computed: {
     cateId() {
