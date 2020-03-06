@@ -73,7 +73,8 @@
           <el-tab-pane label="商品图片" name="3">
             <!-- action: 图片上传地址 -->
             <el-upload
-              action="uploadURL"
+              :headers="headerObj"
+              :action="uploadURL"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
               list-type="picture"
@@ -146,7 +147,11 @@ export default {
       // 静态参数列表数据
       onlyTableData: '',
       // 上传图片 Url 地址
-      uploadURL: 'http://127.0.0.1:8888/api/private/v1/upload'
+      uploadURL: 'http://127.0.0.1:8888/api/private/v1/upload',
+      // 图片上出组件请求头
+      headerObj: {
+        Authorization: window.sessionStorage.getItem('token')
+      }
     }
   },
   created() {
