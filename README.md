@@ -101,3 +101,6 @@ P122 修好之前的bug后又引入了新问题，在没选中的时候点击切
 vue chrome 调试的时候，可以在 F12 -> sources -> webpack 下面找到对应的 component 文件
 
 computed 干什么用的，还有在 element 中使用的时候什么时候要加括号，什么时候不用？？？
+
+> vue-quill-editor: 富文本框编辑器
+> 依赖 -> 运行时依赖， 搜索安装
