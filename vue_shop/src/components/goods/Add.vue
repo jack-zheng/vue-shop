@@ -100,6 +100,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   data() {
     return {
@@ -270,6 +272,11 @@ export default {
         }
 
         // 执行添加逻辑
+        // loadash cloneDeep(obj)
+        const form = _.cloneDeep(this.addForm)
+        form.goods_cat = form.goods_cat.join(',')
+        // 这种处理方法和级联选择器冲突
+        // this.addForm.goods_cat = this.addForm.goods_cat.join(',')
       })
     }
   },
