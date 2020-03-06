@@ -133,6 +133,9 @@ export default {
     // 级联选择器选中项变化触发
     handleChange() {
       console.log(this.addForm.goods_cat)
+      if (this.addForm.goods_cat.length !== 3) {
+        this.addForm.goods_cat = []
+      }
     }
   }
 }
