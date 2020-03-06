@@ -56,7 +56,15 @@
               ></el-cascader>
             </el-form-item>
           </el-tab-pane>
-          <el-tab-pane label="商品参数" name="1">商品参数</el-tab-pane>
+          <el-tab-pane label="商品参数" name="1">
+            <!-- 渲染表单item项 -->
+            <el-form-item :key="item.attr_id" :label="item.attr_name" v-for="item in manyTableData">
+              <!-- 复选框组 -->
+              <el-checkbox-group v-model="item.attr_vals">
+                <el-checkbox border v-for="(cb, i) in item.attr_vals" :key="i" :label="cb"></el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+          </el-tab-pane>
           <el-tab-pane label="商品属性" name="2">商品属性</el-tab-pane>
           <el-tab-pane label="商品图片" name="3">商品图片</el-tab-pane>
           <el-tab-pane label="商品内容" name="4">商品内容</el-tab-pane>
@@ -156,16 +164,22 @@ export default {
     async tabClicked() {
       //   console.log(this.activeIndex)
       if (this.activeIndex === '1') {
-        const {
-          data: res
-        } = await this.$http.get(`categories/${this.cateId}/attributes`, {
-          params: { sel: 'many' }
-        })
+        const { data: res } = await this.$http.get(
+          `categories/${this.cateId}/attributes`,
+          {
+            params: { sel: 'many' }
+          }
+        )
         if (res.meta.status !== 200) {
           return this.$message.error('获取动态参数列表失败')
         }
+
+        res.data.forEach(item => {
+          item.attr_vals =
+            item.attr_vals.length === 0 ? [] : item.attr_vals.split(',')
+        })
         this.manyTableData = res.data
-        // console.log(res.data)
+        console.log(res.data)
       }
     }
   },
