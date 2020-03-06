@@ -225,10 +225,19 @@ export default {
     // 处理图片预览
     handlePreview() {},
     // 处理图片移除
-    handleRemove() {},
+    handleRemove(file) {
+      console.log(file)
+      // 获取将要删除的图片的临时路径
+      const filePath = file.response.data.tmp_path
+      // 从 pics 数组中找到这个图片对应的索引值
+      const i = this.addForm.pics.findIndex(x => x.pic === filePath)
+      // 调用数组的 splice 方法，把图片信息对象从 pics 中移除
+      this.addForm.pics.splice(i, 1)
+      console.log(this.addForm)
+    },
     // 监听图片上传成功事件
     handleSuccess(response) {
-    //   console.log(response)
+      //   console.log(response)
       // 拼接一个图片信息对象
       const picInfo = { pic: response.data.tmp_path }
       // 将图片信息对象push 到图片对象中
