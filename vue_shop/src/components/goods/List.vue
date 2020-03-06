@@ -16,7 +16,7 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary">添加商品</el-button>
+          <el-button type="primary" @click="goAddPage">添加商品</el-button>
         </el-col>
       </el-row>
 
@@ -120,6 +120,9 @@ export default {
       }
       this.getGoodsList()
       this.$message.success('商品已删除')
+    },
+    goAddPage() {
+      this.$router.push('/goods/add')
     }
   }
 }
