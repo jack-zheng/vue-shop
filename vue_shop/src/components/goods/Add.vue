@@ -87,6 +87,11 @@
         </el-tabs>
       </el-form>
     </el-card>
+
+    <!-- 图片预览 -->
+    <el-dialog title="图片预览" :visible.sync="previewVisible" width="50%">
+      <img :src="previewPath" alt="" class="previewImg">
+    </el-dialog>
   </div>
 </template>
 
@@ -154,7 +159,9 @@ export default {
       // 图片上出组件请求头
       headerObj: {
         Authorization: window.sessionStorage.getItem('token')
-      }
+      },
+      previewPath: '',
+      previewVisible: false
     }
   },
   created() {
@@ -223,7 +230,11 @@ export default {
       }
     },
     // 处理图片预览
-    handlePreview() {},
+    handlePreview(file) {
+      console.log(file)
+      this.previewPath = file.response.data.url
+      this.previewVisible = true
+    },
     // 处理图片移除
     handleRemove(file) {
       console.log(file)
@@ -259,5 +270,9 @@ export default {
 <style lang="less" scoped>
 .el-checkbox {
   margin: 0 10px 0 0 !important;
+}
+
+.previewImg {
+    width: 100%;
 }
 </style>
