@@ -263,7 +263,14 @@ export default {
     },
     // 添加商品
     add() {
-      console.log(this.addForm.goods_introduce)
+      //   console.log(this.addForm.goods_introduce)
+      this.$refs.addFormRef.validate(valid => {
+        if (!valid) {
+          return this.$message.error('请填写必要的表单项')
+        }
+
+        // 执行添加逻辑
+      })
     }
   },
   computed: {
