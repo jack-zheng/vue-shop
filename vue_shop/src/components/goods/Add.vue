@@ -117,7 +117,9 @@ export default {
         // 图片数组
         pics: [],
         // 商品详情描述
-        goods_introduce: ''
+        goods_introduce: '',
+        // 商品属性
+        attrs: []
       },
       addFormRules: {
         goods_name: [
@@ -161,7 +163,7 @@ export default {
       // 动态参数列表数据
       manyTableData: [],
       // 静态参数列表数据
-      onlyTableData: '',
+      onlyTableData: [],
       // 上传图片 Url 地址
       uploadURL: 'http://127.0.0.1:8888/api/private/v1/upload',
       // 图片上出组件请求头
@@ -277,6 +279,25 @@ export default {
         form.goods_cat = form.goods_cat.join(',')
         // 这种处理方法和级联选择器冲突
         // this.addForm.goods_cat = this.addForm.goods_cat.join(',')
+
+        // 处理动态参数
+        this.manyTableData.forEach(item => {
+          const newInfo = {
+            attr_id: item.attr_id,
+            attr_value: item.attr_vals.join(',')
+          }
+          this.addForm.attrs.push(newInfo)
+        })
+        // 处理静态属性
+        this.onlyTableData.forEach(item => {
+          const newInfo = {
+            attr_id: item.attr_id,
+            attr_value: item.attr_vals
+          }
+          this.addForm.attrs.push(newInfo)
+        })
+        form.attrs = this.addForm.attrs
+        console.log(form)
       })
     }
   },
