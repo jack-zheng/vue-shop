@@ -78,6 +78,7 @@
               :on-preview="handlePreview"
               :on-remove="handleRemove"
               list-type="picture"
+              :on-success="handleSuccess"
             >
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
@@ -101,7 +102,9 @@ export default {
         goods_weight: 0,
         goods_number: 0,
         // 商品所属分类数组
-        goods_cat: []
+        goods_cat: [],
+        // 图片数组
+        pics: []
       },
       addFormRules: {
         goods_name: [
@@ -222,7 +225,16 @@ export default {
     // 处理图片预览
     handlePreview() {},
     // 处理图片移除
-    handleRemove() {}
+    handleRemove() {},
+    // 监听图片上传成功事件
+    handleSuccess(response) {
+    //   console.log(response)
+      // 拼接一个图片信息对象
+      const picInfo = { pic: response.data.tmp_path }
+      // 将图片信息对象push 到图片对象中
+      this.addForm.pics.push(picInfo)
+      console.log(this.addForm)
+    }
   },
   computed: {
     cateId() {
