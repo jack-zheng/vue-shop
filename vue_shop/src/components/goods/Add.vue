@@ -28,7 +28,12 @@
         label-position="top"
       >
         <!-- tab栏区域 -->
-        <el-tabs :tab-position="'left'" v-model="activeIndex" :before-leave="beforeTabLeave">
+        <el-tabs
+          :tab-position="'left'"
+          v-model="activeIndex"
+          :before-leave="beforeTabLeave"
+          @tab-click="tabClicked"
+        >
           <el-tab-pane label="基本信息" name="0">
             <el-form-item label="商品名称" prop="goods_name">
               <el-input v-model="addForm.goods_name"></el-input>
@@ -113,7 +118,9 @@ export default {
         ]
       },
       // 商品分类列表
-      catelist: []
+      catelist: [],
+      // 动态参数列表数据
+      manyTableData: []
     }
   },
   created() {
@@ -145,6 +152,29 @@ export default {
         return false
       }
       return true
+    },
+    async tabClicked() {
+      //   console.log(this.activeIndex)
+      if (this.activeIndex === '1') {
+        const {
+          data: res
+        } = await this.$http.get(`categories/${this.cateId}/attributes`, {
+          params: { sel: 'many' }
+        })
+        if (res.meta.status !== 200) {
+          return this.$message.error('获取动态参数列表失败')
+        }
+        this.manyTableData = res.data
+        // console.log(res.data)
+      }
+    }
+  },
+  computed: {
+    cateId() {
+      if (this.addForm.goods_cat.length === 3) {
+        return this.addForm.goods_cat[2]
+      }
+      return null
     }
   }
 }
