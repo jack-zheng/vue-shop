@@ -114,3 +114,13 @@ P183 按照教程走，timeline 导入会失败，将 timeline\src 下的 item(1
 
 1. vue ui dependency 那边安装插件
 1. 点进官网，跟着 demo 走就完事了
+
+## 项目优化策略
+
+1. 生成打包报告
+1. 第三方库启用 CDN
+1. ElementUI 组件按需加载
+1. 路由懒加载
+1. 首页内容定制
+
+> nprogress 页面加载进度条, 在 main.js 中进行配置
