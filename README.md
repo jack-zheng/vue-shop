@@ -148,3 +148,13 @@ P183 按照教程走，timeline 导入会失败，将 timeline\src 下的 item(1
 1. 将路由改为按需加载的形式
 
 chunk-vendors.js, app.js 体积减小到 80k 和 10k
+
+## 项目上线
+
+通过 node 创建 web 服务器
+
+1. 创建服务其文件夹 `vue_shop_server`, cd 到该目录下运行 `npm init -y` 初始化项目
+1. 运行 `npm i express -S` 安装包
+1. 将 vue_shop 中编译生成的 dist 目录宝贝到 vue_shop_server 中
+1. 新建 app.js 作为入口文件
+1. node ./app.js 启动服务器
