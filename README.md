@@ -161,4 +161,5 @@ chunk-vendors.js, app.js 体积减小到 80k 和 10k
 
 gzip 压缩加速文件加载
 1. cd 到 server 文件夹中运行 npm i compression -S 安装包
- 
+
+> freessl.cn 申请证书, 配置 app.js 文件监听 443 端口
