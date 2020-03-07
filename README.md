@@ -167,3 +167,9 @@ gzip 压缩加速文件加载
 > pm2 后台运行服务器
 1. npm i pm2 -g
 1. pm2 start [入口文件] --name [自定义项目名称], 示例： pm2 start .\app.js --name web_vueshop
+
+## Bug 修复
+
+部署后，production 版本角色列表显示有问题，查了一下应该是新版的 element-ui 在 2.7 版本之后支持了 tree table, 里面有个定义说只要属性带有 children 就会当成树形表渲染。
+
+在教程中如果是 production 版本用的是 2.8.2。所以除了这个issue. 最简单的改法就是固定2.7之前的版本就行了。index.html 中 2.8.2 改成 2.4.5. 然后 package.json 中 改成 `"element-ui": "^2.4.5"`
