@@ -158,3 +158,7 @@ chunk-vendors.js, app.js 体积减小到 80k 和 10k
 1. 将 vue_shop 中编译生成的 dist 目录宝贝到 vue_shop_server 中
 1. 新建 app.js 作为入口文件
 1. node ./app.js 启动服务器
+
+gzip 压缩加速文件加载
+1. cd 到 server 文件夹中运行 npm i compression -S 安装包
+ 
