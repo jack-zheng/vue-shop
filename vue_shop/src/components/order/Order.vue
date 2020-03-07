@@ -74,8 +74,16 @@
     </el-dialog>
 
     <!-- 物流进度对话框-->
-    <!-- 修改地址对话框 -->
-    <el-dialog title="物流进度" :visible.sync="processVisible" width="50%"></el-dialog>
+    <el-dialog title="物流进度" :visible.sync="processVisible" width="50%">
+      <!-- 时间线 -->
+      <el-timeline>
+        <el-timeline-item
+          v-for="(activity, index) in progressInfo"
+          :key="index"
+          :timestamp="activity.time"
+        >{{activity.context}}</el-timeline-item>
+      </el-timeline>
+    </el-dialog>
   </div>
 </template>
 
@@ -153,6 +161,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+/**
+* @import '../../plugins/timeline/timeline.css';
+* @import '../../plugins/timeline-item/timeline-item.css';
+*/
+
 .el-cascader {
   width: 100%;
 }

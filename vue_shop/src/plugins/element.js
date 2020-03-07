@@ -8,8 +8,12 @@ import {
   Switch, Tooltip, Pagination, Dialog,
   MessageBox, Tag, Tree, Select, Option,
   Cascader, Alert, Tabs, TabPane, Steps, Step,
-  Checkbox, CheckboxGroup, Upload
+  Checkbox, CheckboxGroup, Upload,
+  Timeline, TimelineItem
 } from 'element-ui'
+// 2020-03-07 做的时候官方已经包含了这个组件
+// import Timeline from './timeline/index.js'
+// import TimelineItem from './timeline-item/index.js'
 
 Vue.use(Button)
 Vue.use(Form)
@@ -46,5 +50,7 @@ Vue.use(Steps)
 Vue.use(Checkbox)
 Vue.use(CheckboxGroup)
 Vue.use(Upload)
+Vue.use(Timeline)
+Vue.use(TimelineItem)
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
