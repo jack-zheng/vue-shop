@@ -1,6 +1,6 @@
 // 项目发布阶段需要用到的 babel 插件
 const prodPlugins = []
-if(process.env.MODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   prodPlugins.push('transform-remove-console')
 }
 

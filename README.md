@@ -166,4 +166,4 @@ gzip 压缩加速文件加载
 
 > pm2 后台运行服务器
 1. npm i pm2 -g
-1. pm2 start [入口文件] --name [自定义项目名称]
+1. pm2 start [入口文件] --name [自定义项目名称], 示例： pm2 start .\app.js --name web_vueshop
