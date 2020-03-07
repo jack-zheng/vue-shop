@@ -114,3 +114,56 @@ P183 按照教程走，timeline 导入会失败，将 timeline\src 下的 item(1
 
 1. vue ui dependency 那边安装插件
 1. 点进官网，跟着 demo 走就完事了
+
+## 项目优化策略
+
+1. 生成打包报告
+1. 第三方库启用 CDN
+1. ElementUI 组件按需加载
+1. 路由懒加载
+1. 首页内容定制
+
+> nprogress 页面加载进度条, 在 main.js 中进行配置
+
+> 去除build 时的 console 相关的错误，使用 babel-plugin-transform-remove-console 工具，选择 **开发依赖**
+> root 目录下面 的 babel.config.js 中 plugin 配置下添加 'transform-remove-console'
+
+> vue.config.js 定制 webpack 默认配置需求
+
+> vue.config.js 中修改打包入口， configWebpack 或者 chainWebpack
+> configWebpack 对象操作，chainWebpack 链式操作
+
+> 通过webpack externals 节点加载外部CDN资源，节省空间
+1. vue.config.js 中配置 externals 节点
+1. 将 main.js 中的 js/css 引用放到 public/index.html 中
+
+不晓得为什么好几次动态改完之后build 都会挂，要重启 vue ui 才会生效。。。打包的 js 体积确实有质的变化 2M -> 800k
+
+> element-ui 配置成 external 节点比其他的要方便一点，不需要在 vue.config.js 中配置，直接 main 中删除引用，然后将 CDN 配到 index.html 里就行了
+> 体积 800k -> 100k
+
+> 路由懒加载加速页面加载
+1. 安装 @babel/plugin-syntax-dynamic-import 包， **开发依赖** 插件
+1. 在 babel.config.js 中配置文件中声明的插件
+1. 将路由改为按需加载的形式
+
+chunk-vendors.js, app.js 体积减小到 80k 和 10k
+
+## 项目上线
+
+通过 node 创建 web 服务器
+
+1. 创建服务其文件夹 `vue_shop_server`, cd 到该目录下运行 `npm init -y` 初始化项目
+1. 运行 `npm i express -S` 安装包
+1. 将 vue_shop 中编译生成的 dist 目录宝贝到 vue_shop_server 中
+1. 新建 app.js 作为入口文件
+1. node ./app.js 启动服务器
+
+gzip 压缩加速文件加载
+1. cd 到 server 文件夹中运行 npm i compression -S 安装包
+
+> freessl.cn 申请证书, 配置 app.js 文件监听 443 端口
+
+> pm2 后台运行服务器
+1. npm i pm2 -g
+1. pm2 start [入口文件] --name [自定义项目名称]
