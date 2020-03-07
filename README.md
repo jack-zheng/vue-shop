@@ -106,3 +106,6 @@ computed 干什么用的，还有在 element 中使用的时候什么时候要�
 > 依赖 -> 运行时依赖， 搜索安装
 
 > lodash 做深拷贝
+
+> 2020-03-07 做的时候官方已经包含了这个组件
+P183 按照教程走，timeline 导入会失败，将 timeline\src 下的 item(1).vue 改为 item.vue， 问题解决
