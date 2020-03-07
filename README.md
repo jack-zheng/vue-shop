@@ -132,3 +132,9 @@ P183 按照教程走，timeline 导入会失败，将 timeline\src 下的 item(1
 
 > vue.config.js 中修改打包入口， configWebpack 或者 chainWebpack
 > configWebpack 对象操作，chainWebpack 链式操作
+
+> 通过webpack externals 节点加载外部CDN资源，节省空间
+1. vue.config.js 中配置 externals 节点
+1. 将 main.js 中的 js/css 引用放到 public/index.html 中
+
+不晓得为什么好几次动态改完之后build 都会挂，要重启 vue ui 才会生效。。。打包的 js 体积确实有质的变化 2M -> 800k
