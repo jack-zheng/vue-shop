@@ -35,7 +35,7 @@
         <el-table-column label="操作">
           <template slot-scope>
             <el-button type="primary" icon="el-icon-edit" size="mini" @click="showBox"></el-button>
-            <el-button type="success" icon="el-icon-location" size="mini"></el-button>
+            <el-button type="success" icon="el-icon-location" size="mini" @click="showProcessBox"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -72,6 +72,10 @@
         <el-button type="primary" @click="addressVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+
+    <!-- 物流进度对话框-->
+    <!-- 修改地址对话框 -->
+    <el-dialog title="物流进度" :visible.sync="processVisible" width="50%"></el-dialog>
   </div>
 </template>
 
@@ -100,7 +104,9 @@ export default {
           { required: true, message: '请填写详细地址', trigger: 'blur' }
         ]
       },
-      cityData
+      cityData,
+      processVisible: false,
+      progressInfo: []
     }
   },
   created() {
@@ -132,6 +138,15 @@ export default {
     },
     addressDialogClosed() {
       this.$refs.addressFormRef.resetFields()
+    },
+    async showProcessBox() {
+      const { data: res } = await this.$http.get('/kuaidi/1106975712662')
+      if (res.meta.status !== 200) {
+        return this.$message.error('获取物流信息失败')
+      }
+      this.progressInfo = res.data
+      this.processVisible = true
+      console.log(this.progressInfo)
     }
   }
 }
