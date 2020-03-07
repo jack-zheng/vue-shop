@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import './plugins/element.js'
+// 配置成 externals 节点，减小体积
+// import './plugins/element.js'
 import './assets/css/global.css'
 import './assets/fonts/iconfont.css'
 import axios from 'axios'

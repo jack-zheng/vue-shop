@@ -138,3 +138,6 @@ P183 按照教程走，timeline 导入会失败，将 timeline\src 下的 item(1
 1. 将 main.js 中的 js/css 引用放到 public/index.html 中
 
 不晓得为什么好几次动态改完之后build 都会挂，要重启 vue ui 才会生效。。。打包的 js 体积确实有质的变化 2M -> 800k
+
+> element-ui 配置成 external 节点比其他的要方便一点，不需要在 vue.config.js 中配置，直接 main 中删除引用，然后将 CDN 配到 index.html 里就行了
+> 体积 800k -> 100k
