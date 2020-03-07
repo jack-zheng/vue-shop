@@ -39,7 +39,18 @@
           </template>
         </el-table-column>
       </el-table>
-    </el-card>pay_status
+
+      <!-- 分页区 -->
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.pagenum"
+        :page-sizes="[5, 10, 15]"
+        :page-size="queryInfo.pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      ></el-pagination>
+    </el-card>
   </div>
 </template>
 
@@ -70,6 +81,14 @@ export default {
       console.log(this.orderList)
       this.orderList = res.data.goods
       this.total = res.data.total
+    },
+    handleSizeChange(newSize) {
+      this.queryInfo.pagesize = newSize
+      this.getOrderList()
+    },
+    handleCurrentChange(newPage) {
+      this.queryInfo.pagenum = newPage
+      this.getOrderList()
     }
   }
 }
