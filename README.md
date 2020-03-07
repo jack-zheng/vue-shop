@@ -127,3 +127,8 @@ P183 按照教程走，timeline 导入会失败，将 timeline\src 下的 item(1
 
 > 去除build 时的 console 相关的错误，使用 babel-plugin-transform-remove-console 工具，选择 **开发依赖**
 > root 目录下面 的 babel.config.js 中 plugin 配置下添加 'transform-remove-console'
+
+> vue.config.js 定制 webpack 默认配置需求
+
+> vue.config.js 中修改打包入口， configWebpack 或者 chainWebpack
+> configWebpack 对象操作，chainWebpack 链式操作
