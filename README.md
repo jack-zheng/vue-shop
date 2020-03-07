@@ -124,3 +124,6 @@ P183 按照教程走，timeline 导入会失败，将 timeline\src 下的 item(1
 1. 首页内容定制
 
 > nprogress 页面加载进度条, 在 main.js 中进行配置
+
+> 去除build 时的 console 相关的错误，使用 babel-plugin-transform-remove-console 工具，选择 **开发依赖**
+> root 目录下面 的 babel.config.js 中 plugin 配置下添加 'transform-remove-console'
