@@ -163,3 +163,7 @@ gzip 压缩加速文件加载
 1. cd 到 server 文件夹中运行 npm i compression -S 安装包
 
 > freessl.cn 申请证书, 配置 app.js 文件监听 443 端口
+
+> pm2 后台运行服务器
+1. npm i pm2 -g
+1. pm2 start [入口文件] --name [自定义项目名称]
