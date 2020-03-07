@@ -141,3 +141,10 @@ P183 按照教程走，timeline 导入会失败，将 timeline\src 下的 item(1
 
 > element-ui 配置成 external 节点比其他的要方便一点，不需要在 vue.config.js 中配置，直接 main 中删除引用，然后将 CDN 配到 index.html 里就行了
 > 体积 800k -> 100k
+
+> 路由懒加载加速页面加载
+1. 安装 @babel/plugin-syntax-dynamic-import 包， **开发依赖** 插件
+1. 在 babel.config.js 中配置文件中声明的插件
+1. 将路由改为按需加载的形式
+
+chunk-vendors.js, app.js 体积减小到 80k 和 10k
