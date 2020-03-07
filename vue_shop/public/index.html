@@ -6,8 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-  <title><%= htmlWebpackPlugin.options.title %></title>
-  
+  <title><%= htmlWebpackPlugin.options.isProd? htmlWebpackPlugin.options.title : 'dev - ' + htmlWebpackPlugin.options.title %></title>
+
+  <% if(htmlWebpackPlugin.options.isProd) {%>
   <!-- nprogress 的样式表文件 -->
   <link rel="stylesheet" href="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css" />
   <!-- 富文本编辑器 的样式表文件 -->
@@ -29,6 +30,7 @@
 
   <!-- element-ui 的 js 文件 -->
   <script src="https://cdn.staticfile.org/element-ui/2.8.2/index.js"></script>
+  <%}%>
 </head>
 
 <body>
